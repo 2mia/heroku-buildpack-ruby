@@ -327,10 +327,13 @@ SHELL
       return false unless ruby_version
 
       if ruby_version.build?
+        topic "ruby is built"
         FileUtils.mkdir_p(build_ruby_path)
+        topic "going to #{build_ruby_path}"
         Dir.chdir(build_ruby_path) do
           ruby_vm = "ruby"
           instrument "ruby.fetch_build_ruby" do
+            topic "fetching #{ruby_version.version.sub(ruby_vm, "#{ruby_vm}-build")}.tgz"
             @fetchers[:mri].fetch_untar("#{ruby_version.version.sub(ruby_vm, "#{ruby_vm}-build")}.tgz")
           end
         end
@@ -342,6 +345,7 @@ SHELL
           if ruby_version.rbx?
             file     = "#{ruby_version.version}.tar.bz2"
             sha_file = "#{file}.sha1"
+            topic "fetching file #{file}"
             @fetchers[:rbx].fetch(file)
             @fetchers[:rbx].fetch(sha_file)
 
@@ -360,6 +364,7 @@ ERROR_MSG
             FileUtils.rm(file)
             FileUtils.rm(sha_file)
           else
+            topic "fetchers-else ... #{ruby_version.version}.tgz"
             @fetchers[:mri].fetch_untar("#{ruby_version.version}.tgz")
           end
         end
