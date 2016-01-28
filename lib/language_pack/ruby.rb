@@ -376,7 +376,7 @@ ERROR_MSG
 
       @metadata.write("buildpack_ruby_version", ruby_version.version)
 
-      topic "Using Ruby version: #{ruby_version.version}"
+      topic "Using Ruby version1: #{ruby_version.version}"
       if !ruby_version.set
         warn(<<-WARNING)
 You have not declared a Ruby version in your Gemfile.
